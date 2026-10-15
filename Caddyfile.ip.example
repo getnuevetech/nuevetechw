@@ -1,0 +1,17 @@
+# IP-only / no domain yet: HTTP :80 + HTTPS :443 (self-signed).
+# Copy over Caddyfile if you need this mode:
+#   cp Caddyfile.ip.example Caddyfile && docker compose up -d caddy
+
+(app_proxy) {
+	encode gzip zstd
+	reverse_proxy app:3000
+}
+
+:80 {
+	import app_proxy
+}
+
+:443 {
+	tls internal
+	import app_proxy
+}

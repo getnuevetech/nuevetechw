@@ -1,0 +1,8 @@
+# Production HTTPS for nuevetech.io (Let's Encrypt on :443, HTTP on :80).
+# DNS A records for nuevetech.io + www must point at this server.
+# Lightsail firewall must allow 80 and 443.
+
+nuevetech.io, www.nuevetech.io {
+	encode gzip zstd
+	reverse_proxy app:3000
+}

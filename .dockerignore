@@ -1,0 +1,16 @@
+node_modules
+dist
+.git
+.github
+*.swp
+*.log
+.env
+.env.*
+!.env.example
+!.env.docker.example
+coverage
+*.md
+!DEPLOY.md
+.DS_Store
+.vscode
+.idea

@@ -1,0 +1,65 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-changeme-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nuevetech}
+      MYSQL_USER: ${MYSQL_USER:-nuevetech}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-changeme}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # Not published to the host — only reachable by `app` on the Docker network
+    expose:
+      - "3306"
+    healthcheck:
+      # Do not quote $$MYSQL_ROOT_PASSWORD — quotes become part of the password
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_KIMI_AUTH_URL: ${VITE_KIMI_AUTH_URL}
+        VITE_APP_ID: ${VITE_APP_ID}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_ID: ${APP_ID}
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: ${DATABASE_URL:-mysql://${MYSQL_USER:-nuevetech}:${MYSQL_PASSWORD:-changeme}@db:3306/${MYSQL_DATABASE:-nuevetech}}
+      KIMI_AUTH_URL: ${KIMI_AUTH_URL}
+      KIMI_OPEN_URL: ${KIMI_OPEN_URL}
+      OWNER_UNION_ID: ${OWNER_UNION_ID:-}
+      RUN_DB_PUSH: ${RUN_DB_PUSH:-1}
+    # Not published to the host — only reachable by Caddy on the Docker network
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  mysql_data:
+  caddy_data:
+  caddy_config:
