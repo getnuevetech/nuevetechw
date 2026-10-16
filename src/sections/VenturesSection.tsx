@@ -26,6 +26,13 @@ const ventures = [
     tag: 'Future Venture',
     color: '#FF7227',
   },
+  {
+    name: 'ZuriKaribu',
+    desc: 'African fashion marketplace connecting designers, fabric sellers, and global customers — authentic style, craftsmanship, and contemporary African design.',
+    image: '/images/ventures-zurikaribu.jpg',
+    tag: 'Future Venture',
+    color: '#C45C26',
+  },
 ];
 
 export default function VenturesSection() {
@@ -54,7 +61,7 @@ export default function VenturesSection() {
             Nueve Technologies creates and develops independent technology businesses that address high-impact challenges across multiple industries.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {ventures.map((v) => (
             <div key={v.name} className="venture-reveal group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
               <div className="h-56 overflow-hidden">
