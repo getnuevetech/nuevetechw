@@ -39,8 +39,15 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6">
           <p className="text-xs text-white/40">&copy; 2026 Nueve Technologies LLC. All rights reserved.</p>
+          <img
+            src="/images/3cx-bronze-partner.png"
+            alt="3CX Bronze Partner"
+            className="h-16 w-auto sm:h-[72px] opacity-90"
+            width={72}
+            height={72}
+          />
           <p className="text-xs text-white/40">Technology. People. Service.</p>
         </div>
       </div>
