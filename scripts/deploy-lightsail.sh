@@ -24,7 +24,10 @@ else
   git clone --branch "$BRANCH" "$REPO_URL" .
 fi
 
-docker compose up --build -d
+# Avoid stale Vite bundles: rebuild app without cache, then recreate
+docker compose build --no-cache --pull app
+docker compose up -d --force-recreate
 docker compose ps
+curl -sS http://127.0.0.1/ | grep -E 'assets/index-' || true
 curl -sS -o /dev/null -w "local_http:%{http_code}\n" http://127.0.0.1/
-echo "Done. Verify https://nuevetech.io"
+echo "Done. Verify https://nuevetech.io (hard refresh). Bundle hash must change after deploy."
