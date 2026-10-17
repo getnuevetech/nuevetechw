@@ -8,7 +8,7 @@ const ventures = [
   {
     name: 'SquadPay LLC',
     desc: 'Collaborative payment platform that transforms how groups share expenses.',
-    image: '/images/ventures-consumer-tech.jpg',
+    image: '/images/ventures-squadpay.jpg',
     tag: 'Financial Technology',
     color: '#7B3FF2',
   },
@@ -68,7 +68,7 @@ export default function VenturesSection() {
                 <img
                   src={v.image}
                   alt={`${v.name} product preview`}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-left group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-8">
